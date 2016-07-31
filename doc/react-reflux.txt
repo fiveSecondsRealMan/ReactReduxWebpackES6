@@ -1,0 +1,32 @@
+1、babel-preset-es2015怎样编译解析模块的
+    es6中导入模块包括四种
+        (1)、导入模块全部导出方法
+            import * as alias from module
+
+        (2)、导入模块指定导出方法
+            import { method1, method2 } from module
+        (3)、导入模块默认对象
+            import xx from module
+        (4)、导入模块默认对象，但是不使用模块方法
+            import module
+
+        babel-preset-es2015怎样编译解析的
+            按照CommonJS模块查找机制找到模块
+            找到模块后进行编译成es5的操作
+                如果使用的是es6模块导出的，给当前模块增加__esModule属性，将es6的export const xx或export xx、export default {}编译成es5的export.xx和module.export = {}形式
+            导入模块解析，如果是导入模块所有方法或者指定方法，则会遍历模块，将模块的方法拷贝到新的对象中，并且创建一个default属性指向当前模块
+
+webpack做的事
+    1、编译jsx、es6
+    2、自动生成依赖静态文件的html页面
+    3、热替换和自动刷新
+    4、自动添加css内核标识
+
+
+2、reflux简述
+
+
+3、reflux组成部分
+
+
+4、reflux适用场景
