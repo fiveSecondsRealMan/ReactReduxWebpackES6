@@ -19,7 +19,6 @@ var __DISTPATH__ = path.resolve(__ROOTPATH__, 'dist');
 // 是否为开发环境
 var __ISDEV__ = process.env.NODE_ENV !== 'production';
 
-
 // 资源路径别名Map
 var resourcePathAlias = {};
 
@@ -42,3 +41,35 @@ Object.assign(resourcePathAlias, {
 Object.assign(resourcePathAlias, {
     img: __SRCPATH__ + 'img'
 });
+
+module.exports = {
+    // 入口文件目录
+    context: __SRCPATH__,
+
+    // 入口文件路径
+    entry: {
+        app: ['./app.js']
+    },
+
+    // 输出文件路径
+    output: {
+        // 目录
+        path: __DISTPATH__,
+        // 文件名
+        filename: 'bundle.js'
+    },
+
+    module: {},
+
+    resolve: {
+        alias: resourcePathAlias,
+        extensions: ['', '.js', '.jsx', '.css']
+    },
+
+    plugins: [
+        // 设置环境
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+        })
+    ]
+};
