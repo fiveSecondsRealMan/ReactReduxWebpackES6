@@ -17,14 +17,21 @@ var localPublicPath = 'http://' + host + ':' + port;
 webpackConfig.output.publicPath = localPublicPath;
 webpackConfig.entry.app.unshift('webpack-dev-server/client?' + localPublicPath);
 
-new WebpackDevServer(webpackConfig, {
+// js文件热替换
+webpackConfig.entry.app.unshift('webpack/hot/only-dev-server');
+webpackConfig.module.loaders[0].loaders.unshift('react-hot');
+webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
+
+(new WebpackDevServer(webpack(webpackConfig), {
     hot: true,
     inline: true, // 命令行启动
     compress: true, // 显示进度
     stats: {
+        chunks: false,
+        children: false,
         colors: true
     },
     historyApiFallback: true // h5无刷新改变页面url
-}).listen(port, host, function () {
+})).listen(port, host, function () {
     console.log(localPublicPath);
 });

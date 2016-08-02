@@ -5,11 +5,11 @@
 'use strict';
 
 import React from 'react';
-import * as wjj from 'components/home';
-import { a } from 'components/home';
-import gan from 'components/home';
-import 'components/home';
+import { render } from 'react-dom';
 
-console.log(wjj.a);
-console.log(a);
-console.log(gan);
+import Home from 'components/home';
+
+render(
+    <Home/>,
+    document.getElementById('app')
+)

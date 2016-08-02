@@ -5,6 +5,7 @@
 'use strict';
 
 var webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 
 // 项目根路径
@@ -24,22 +25,22 @@ var resourcePathAlias = {};
 
 // 添加components资源别名
 Object.assign(resourcePathAlias, {
-    components: __SRCPATH__ + 'components'
+    components: path.resolve(__SRCPATH__, 'components')
 });
 
 // 添加js资源别名
 Object.assign(resourcePathAlias, {
-    js: __SRCPATH__ + 'js'
+    js: path.resolve(__SRCPATH__ , 'js')
 });
 
 // 添加css资源别名
 Object.assign(resourcePathAlias, {
-    css: __SRCPATH__ + 'css'
+    css: path.resolve(__SRCPATH__, 'css')
 });
 
 // 添加img资源别名
 Object.assign(resourcePathAlias, {
-    img: __SRCPATH__ + 'img'
+    img: path.resolve(__SRCPATH__ , 'img')
 });
 
 module.exports = {
@@ -59,7 +60,16 @@ module.exports = {
         filename: 'bundle.js'
     },
 
-    module: {},
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                include: __SRCPATH__,
+                loaders: ['babel']
+            }
+        ]
+    },
 
     resolve: {
         alias: resourcePathAlias,
@@ -70,6 +80,12 @@ module.exports = {
         // 设置环境
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+        }),
+        new HtmlWebpackPlugin({
+            title: '挖掘机就是你',
+            filename: 'index.html',
+            chunk: ['app'],
+            template: path.resolve(__SRCPATH__, 'pages', 'index.html')
         })
     ]
 };
