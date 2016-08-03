@@ -4,20 +4,24 @@
 
 'use strict';
 
-var path = require('path');
-var webpack = require('webpack');
-var webpackConfig = require('./webpack.config');
-var WebpackDevServer = require('webpack-dev-server');
+const webpack = require('webpack');
+const webpackConfig = require('./webpack.config');
+const WebpackDevServer = require('webpack-dev-server');
 
-// 静态资源路径
-var host = 'localhost';
-var port = 8080;
-var localPublicPath = 'http://' + host + ':' + port;
+/**
+ * 静态资源路径
+ */
+const protocol = 'http://';
+const [ , , host, port ] = process.argv;
+const publicPath = protocol + host + ':' + port;
 
-webpackConfig.output.publicPath = localPublicPath;
-webpackConfig.entry.app.unshift('webpack-dev-server/client?' + localPublicPath);
+webpackConfig.output.publicPath = publicPath;
+webpackConfig.entry.app.unshift('webpack-dev-server/client?' + publicPath);
 
-// js文件热替换
+/**
+ * js文件热替换
+ */
+
 webpackConfig.entry.app.unshift('webpack/hot/only-dev-server');
 webpackConfig.module.loaders[0].loaders.unshift('react-hot');
 webpackConfig.plugins.push(new webpack.HotModuleReplacementPlugin());
